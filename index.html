@@ -114,7 +114,7 @@ const bank=[
 ];
 // Remove the five original demo/sample items per subject. Keep the 20 previously added English questions.
 const demoRemoved={};
-for(let i=bank.length-1;i>=0;i--){const subject=bank[i][0];demoRemoved[subject]??=0;if(demoRemoved[subject]<5){demoRemoved[subject]++;bank.splice(i,1)}}
+for(let i=0;i<bank.length;){const subject=bank[i][0];demoRemoved[subject]??=0;if(demoRemoved[subject]<5){demoRemoved[subject]++;bank.splice(i,1)}else{i++}}
 bank.push(...(window.extraBank||[]));
 let qs=[],ans={},at=0,left=5400,clock,track="Medical"; const tracks={Medical:["English","Physics","Chemistry","Biology"],Engineering:["English","Mathematics","Physics","Chemistry"]};
 const letters="ABCD";
