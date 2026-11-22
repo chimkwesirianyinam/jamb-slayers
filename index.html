@@ -10,9 +10,17 @@
 <header class="top"><div class="brand"><i>JS</i>JAMB SLAYERS</div><nav class="mainnav"><a href="#home" id="navHome">Home</a><a href="#features" id="navFeatures">Features</a><a href="#setup" id="navPractice">Practice</a></nav><button class="btn secondary navcta" id="navGetStarted">Get started</button></header>
 <main><section id="home" class="landing"><div class="landing-copy"><span class="eyebrow">YOUR UTME PREPARATION PARTNER</span><h1>Prepare with purpose.<br><em>Aim higher.</em></h1><p>Practise with focused questions, understand your mistakes and build confidence for your UTME journey.</p><div class="landing-actions"><button class="btn" id="heroGetStarted">Start practising →</button><a href="#features" class="textlink">Explore the platform</a></div><div class="quickfacts"><span><b>2</b> practice fields</span><span><b>4</b> subjects per mock</span><span><b>400</b> marks per mock</span></div></div><div class="landing-panel"><div class="panel-top"><span class="dot"></span><span>JAMB SLAYERS</span><span class="panel-label">MOCK PRACTICE</span></div><div class="panel-title">Choose your path</div><div class="path-card"><span class="path-icon">✚</span><div><b>Medical Field</b><small>English · Physics · Chemistry · Biology</small></div><span class="path-arrow">→</span></div><div class="path-card"><span class="path-icon">⌘</span><div><b>Engineering Field</b><small>English · Mathematics · Physics · Chemistry</small></div><span class="path-arrow">→</span></div><div class="panel-foot"><span>Timed practice</span><span>Detailed explanations</span></div></div></section>
 <section id="features" class="feature-section"><div class="section-heading"><span class="eyebrow">BUILT FOR BETTER PREPARATION</span><h2>Everything you need to practise with confidence.</h2></div><div class="feature-grid"><article class="feature-card"><span>◷</span><b>Timed mock exams</b><p>Practise under a time limit and learn to manage your exam time.</p></article><article class="feature-card"><span>✓</span><b>Instant results</b><p>See your score for each subject and your total out of 400.</p></article><article class="feature-card"><span>✎</span><b>Clear explanations</b><p>Review each question and understand why an answer is correct.</p></article></div></section>
-<section id="setup" class="layout hidden"><div class="card"><div class="setup-heading"><div><h2>Set up your mock</h2><div class="muted">Choose your field and practice settings. Four subjects are included in each field.</div></div><button class="btn secondary" id="backHome">← Home</button></div>
+<section id="namePage" class="card hidden" style="max-width:560px;margin:50px auto">
+  <span class="eyebrow">STUDENT ENTRY</span><h2 style="font-size:25px;margin:10px 0">Welcome to JAMB Slayers</h2>
+  <p class="muted">Enter the name you will use for this mock. Use the same name whenever you return on this browser.</p>
+  <label for="studentName" style="display:block;font-weight:750;margin:18px 0 7px">Your name</label>
+  <input id="studentName" autocomplete="name" maxlength="60" placeholder="Enter your name" style="width:100%;padding:13px;border:1px solid var(--line);border-radius:10px;font:inherit">
+  <p id="nameError" class="bad hidden"></p><button class="btn full" id="continueName">Continue →</button>
+  <button class="btn secondary full" id="nameBack">Back to home</button>
+</section>
+<section id="setup" class="layout hidden"><div class="card"><div class="setup-heading"><div><h2>Set up your mock</h2><div class="muted">Choose your field. Each subject has a fixed question count and every mock lasts 90 minutes.</div></div><button class="btn secondary" id="backHome">← Home</button></div>
 <div class="fields" style="margin:18px 0"><label style="border:1px solid var(--line);padding:15px;border-radius:12px"><input type="radio" name="track" value="Medical" checked> <b>Medical Field</b><div class="muted">English · Physics · Chemistry · Biology</div><strong>400 marks</strong></label><label style="border:1px solid var(--line);padding:15px;border-radius:12px"><input type="radio" name="track" value="Engineering"> <b>Engineering Field</b><div class="muted">English · Mathematics · Physics · Chemistry</div><strong>400 marks</strong></label></div><div class="notice" id="trackSubjects">Your mock will include English, Physics, Chemistry and Biology. Each subject is scored out of 100.</div>
-<div class="fields"><label>Questions per subject<select id="count"><option>2</option><option selected>5</option><option>10</option><option>20</option><option>40</option><option>60</option></select></label><label>Time limit<select id="mins" disabled><option value="90" selected>1 hour 30 minutes</option></select></label><label>Difficulty<select id="diff"><option>Mixed</option><option>Easy</option><option>Moderate</option><option>Difficult</option></select></label><label>Mode<select id="mode"><option>Exam mode</option><option>Study mode</option></select></label></div>
+<div class="fields"><label>Questions per subject<select id="count" disabled><option value="40" selected>Fixed: 40 per subject (English: 60)</option></select></label><label>Time limit<select id="mins" disabled><option value="90" selected>1 hour 30 minutes</option></select></label><label>Difficulty<select id="diff" disabled><option selected>Mixed</option></select></label><label>Mode<select id="mode" disabled><option selected>Exam mode</option></select></label></div>
 <div class="start"><span class="muted" id="summary">Medical Field · 4 subjects · 20 questions</span><button class="btn" id="start">Start mock test →</button></div></div>
 <aside class="card"><h2>Mock overview</h2><div class="info"><div><b>◷ Timed practice</b><span>Keep an eye on the countdown.</span></div><div><b>▦ Question navigator</b><span>Move between questions freely.</span></div><div><b>✓ Automatic marking</b><span>See your score by subject.</span></div><div><b>✎ Detailed explanations</b><span>Understand every answer.</span></div></div><div class="notice"><b>Practice note</b><br>Questions are drawn from the JAMB Slayers question bank. This is an independent practice platform and is not an official JAMB examination.</div></aside></section>
 <section id="exam" class="hidden"><div class="examhead"><div><span class="pill">JAMB SLAYERS · MOCK SESSION</span><h2 style="margin-top:9px">UTME Practice Mock</h2><div class="muted" id="subtitle"></div></div><div class="timer" id="timer">30:00</div></div><div class="bar"><div id="progress"></div></div><div class="examgrid"><div class="card"><div class="meta"><span class="tag" id="subj"></span><span id="num"></span></div><div class="question" id="q"></div><div id="opts"></div><div id="feedback" class="explain hidden"></div><div class="actions"><button class="btn secondary" id="prev">← Previous</button><button class="btn" id="next">Next →</button></div></div><aside class="card"><h2>Question palette</h2><div class="muted" id="answered">0 answered</div><div class="qnav" id="palette"></div><button class="btn full" id="submit">Submit mock</button></aside></div></section>
@@ -125,4 +133,74 @@ function render(){let x=qs[at];$("subj").textContent=x[0];$("num").textContent="
 $("prev").onclick=()=>{if(at){at--;render()}};$("next").onclick=()=>{if(at<qs.length-1){at++;render()}else $("submit").scrollIntoView({behavior:"smooth"})};$("submit").onclick=()=>{if(confirm("Submit this mock test?"))finish()};
 function finish(){clearInterval(clock);let c=0,w=0,u=0,subjects={};tracks[track].forEach(s=>subjects[s]={c:0,n:0});qs.forEach((x,i)=>{subjects[x[0]]??={c:0,n:0};subjects[x[0]].n++;if(ans[i]===undefined)u++;else if(ans[i]===x[4]){c++;subjects[x[0]].c++}else w++});let total=0;Object.values(subjects).forEach(v=>{v.score=v.n?Math.round(v.c/v.n*100):0;total+=v.score});let p=Math.round(total/4);$("percent").textContent=total+"/400";$("headline").textContent=p>=70?"Good work — keep building!":p>=45?"A solid start. Keep practising.":"Every attempt is a chance to improve."; $("scoreline").textContent="Final score: "+total+" / 400 ("+p+"%) · "+c+" correct · "+w+" incorrect · "+u+" unanswered";$("breakdown").innerHTML=Object.entries(subjects).map(([s,v])=>'<p><b>'+s+'</b> <span class="muted">'+v.score+'/100 ('+v.c+'/'+v.n+' correct)</span><div class="bar"><div style="width:'+v.score+'%"></div></div></p>').join("");$("review").innerHTML=qs.map((x,i)=>'<div class="review"><b>'+(i+1)+'. '+x[2]+'</b><p class="'+(ans[i]===x[4]?"good":"bad")+'">'+(ans[i]===undefined?"Not answered":ans[i]===x[4]?"Correct":"Incorrect")+'</p><div class="muted">Your answer: '+(ans[i]===undefined?"—":letters[ans[i]]+". "+x[3][ans[i]])+'</div><div class="muted">Correct answer: <b>'+letters[x[4]]+". "+x[3][x[4]]+'</b></div><div class="explain"><b>Explanation:</b> '+x[5]+'</div></div>').join("");$("exam").classList.add("hidden");$("results").classList.remove("hidden");scrollTo(0,0)}
 $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden");showSetup()};
-</script></body></html>
+</script>
+<script>
+(()=>{
+ const $=id=>document.getElementById(id);
+ const pages=["home","features","namePage","setup","exam","results"];
+ let studentName=localStorage.getItem("js_student_name")||"";
+ let activeMock=false;
+ function route(page,update=true){
+   pages.forEach(id=>$(id)?.classList.toggle("hidden",id!==page));
+   if(update){history.pushState({page},"","#"+page)}
+   window.scrollTo(0,0);
+ }
+ function currentName(){return (studentName||"").trim()}
+ function completedKey(){return "js_mock_completed_"+currentName().toLocaleLowerCase().replace(/\s+/g," ")}
+ function goHome(){activeMock=false;route("home")}
+ function goName(){route("namePage")}
+ function goFields(){route("setup")}
+ $("navGetStarted").onclick=goName;
+ $("heroGetStarted").onclick=goName;
+ $("navPractice").onclick=e=>{e.preventDefault();goName()};
+ $("navHome").onclick=e=>{e.preventDefault();goHome()};
+ $("backHome").onclick=goHome;
+ $("nameBack").onclick=goHome;
+ $("continueName").onclick=()=>{
+   const v=$("studentName").value.trim();
+   if(v.length<2){$("nameError").textContent="Please enter a name with at least two characters.";$("nameError").classList.remove("hidden");return}
+   studentName=v;localStorage.setItem("js_student_name",v);
+   if(localStorage.getItem(completedKey())){$("nameError").textContent="A mock has already been completed under this name on this browser.";$("nameError").classList.remove("hidden");return}
+   $("nameError").classList.add("hidden");goFields();
+ };
+ $("studentName").value=studentName;
+ document.querySelectorAll('input[name="track"]').forEach(r=>r.onchange=()=>{track=r.value;summary()});
+ $("start").onclick=()=>{
+   studentName=localStorage.getItem("js_student_name")||studentName;
+   if(!studentName){goName();return}
+   if(localStorage.getItem(completedKey())){alert("A mock has already been completed under this name on this browser.");goName();return}
+   track=document.querySelector('input[name="track"]:checked').value;
+   const selected=tracks[track];
+   const required=s=>s==="English"?60:40;
+   const missing=selected.filter(sub=>bank.filter(q=>q[0]===sub).length<required(sub));
+   if(missing.length){alert("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
+   qs=selected.flatMap(sub=>[...bank.filter(q=>q[0]===sub)].sort(()=>Math.random()-.5).slice(0,required(sub)));
+   if(qs.length!==180){alert("The mock could not be prepared correctly. Please try again later.");return}
+   ans={};at=0;left=90*60;activeMock=true;
+   $("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions · Candidate: "+studentName;
+   route("exam");render();clearInterval(clock);
+   clock=setInterval(()=>{left--;const t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);
+ };
+ const originalFinish=finish;
+ finish=function(){
+   if(!activeMock)return;
+   activeMock=false;
+   localStorage.setItem(completedKey(),JSON.stringify({completedAt:new Date().toISOString(),field:track}));
+   originalFinish();
+   route("results");
+ };
+ $("again").onclick=()=>{alert("This name has already completed its mock on this browser. A second attempt is not available.");goHome()};
+ window.addEventListener("beforeunload",e=>{
+   if(activeMock){e.preventDefault();e.returnValue="Your mock is in progress. Leaving this page may end your session."}
+ });
+ window.addEventListener("popstate",()=>{
+   if(activeMock){const leave=confirm("Your mock is in progress. Are you sure you want to leave?");if(!leave){history.pushState({page:"exam"},"","#exam");return} }
+   activeMock=false;
+   const page=location.hash.slice(1);
+   route(pages.includes(page)?page:"home",false);
+ });
+ if(studentName&&$("studentName"))$("studentName").value=studentName;
+ route("home",false);
+})();
+</script>
+</body></html>
