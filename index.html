@@ -175,7 +175,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    $("nameError").classList.add("hidden");goFields();
  };
  $("studentName").value=studentName;
- document.querySelectorAll('input[name="track"]').forEach(r=>r.onchange=()=>{track=r.value;summary()});
+ document.querySelectorAll('input[name="track"]').forEach(r=>r.onchange=()=>{track=r.value;summary();$("fieldPreviewTitle").textContent=track+" Field";$("fieldPreviewSubjects").textContent=tracks[track].join(" · ");$("fieldCandidate").textContent="Candidate: "+(studentName||localStorage.getItem("js_student_name")||"");route("fieldPreview")});
  $("start").onclick=()=>{
    studentName=localStorage.getItem("js_student_name")||studentName;
    if(!studentName){goName();return}
