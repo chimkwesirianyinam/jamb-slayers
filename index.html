@@ -200,7 +200,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    route("fieldPreview");
  };
  $("previewBack").onclick=()=>route("setup");
- $("beginMock").onclick=()=>{{
+ $("beginMock").onclick=()=>{
    studentName=localStorage.getItem("js_student_name")||studentName;
    if(!studentName){goName();return}
    if(localStorage.getItem(completedKey())){alert("A mock has already been completed under this name on this browser.");goName();return}
@@ -218,6 +218,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  };
  summary=()=>{$("summary").textContent=track+" Field · 4 subjects · 180 questions";$("trackSubjects").textContent="Your fixed mock includes "+tracks[track].join(", ")+". English has 60 questions; each other subject has 40. Each subject is scored out of 100."};
  $("count").value="40";
+ summary();
  const originalFinish=finish;
  finish=function(){
    if(!activeMock)return;
