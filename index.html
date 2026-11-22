@@ -18,6 +18,17 @@
   <p id="nameError" class="bad hidden"></p><button class="btn full" id="continueName">Continue →</button>
   <button class="btn secondary full" id="nameBack">Back to home</button>
 </section>
+<section id="fieldPreview" class="card hidden" style="max-width:760px;margin:35px auto">
+ <span class="eyebrow">MOCK DETAILS</span><h2 id="fieldPreviewTitle" style="font-size:27px;margin:10px 0">Medical Field</h2>
+ <p class="muted" id="fieldPreviewSubjects"></p>
+ <div class="fields" style="margin-top:20px">
+  <div class="notice"><b>180 questions</b><br>60 English questions and 40 questions in each of the other three subjects.</div>
+  <div class="notice"><b>90 minutes</b><br>One timed mock session. Each subject is scored out of 100.</div>
+ </div>
+ <p class="muted" id="fieldCandidate"></p>
+ <button class="btn full" id="beginMock">Begin CBT Practice →</button>
+ <button class="btn secondary full" id="previewBack">← Change field</button>
+</section>
 <section id="setup" class="layout hidden"><div class="card"><div class="setup-heading"><div><h2>Set up your mock</h2><div class="muted">Choose your field. Each subject has a fixed question count and every mock lasts 90 minutes.</div></div><button class="btn secondary" id="backHome">← Home</button></div>
 <div class="fields" style="margin:18px 0"><label style="border:1px solid var(--line);padding:15px;border-radius:12px"><input type="radio" name="track" value="Medical" checked> <b>Medical Field</b><div class="muted">English · Physics · Chemistry · Biology</div><strong>400 marks</strong></label><label style="border:1px solid var(--line);padding:15px;border-radius:12px"><input type="radio" name="track" value="Engineering"> <b>Engineering Field</b><div class="muted">English · Mathematics · Physics · Chemistry</div><strong>400 marks</strong></label></div><div class="notice" id="trackSubjects">Your mock will include English, Physics, Chemistry and Biology. Each subject is scored out of 100.</div>
 <div class="fields"><label>Questions per subject<select id="count" disabled><option value="40" selected>Fixed: 40 per subject (English: 60)</option></select></label><label>Time limit<select id="mins" disabled><option value="90" selected>1 hour 30 minutes</option></select></label><label>Difficulty<select id="diff" disabled><option selected>Mixed</option></select></label><label>Mode<select id="mode" disabled><option selected>Exam mode</option></select></label></div>
@@ -137,7 +148,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
 <script>
 (()=>{
  const $=id=>document.getElementById(id);
- const pages=["home","features","namePage","setup","exam","results"];
+ const pages=["home","features","namePage","setup","fieldPreview","exam","results"];
  let studentName=localStorage.getItem("js_student_name")||"";
  let activeMock=false;
  function route(page,update=true){
@@ -147,8 +158,8 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  }
  function currentName(){return (studentName||"").trim()}
  function completedKey(){return "js_mock_completed_"+currentName().toLocaleLowerCase().replace(/\s+/g," ")}
- function goHome(){activeMock=false;route("home")}
- function goName(){route("namePage")}
+ function goHome(){if(activeMock&&!confirm("Your mock is in progress. Leaving now will end this session. Continue?"))return;activeMock=false;route("home")}
+ function goName(){if(activeMock&&!confirm("Your mock is in progress. Leaving now will end this session. Continue?"))return;activeMock=false;route("namePage")}
  function goFields(){route("setup")}
  $("navGetStarted").onclick=goName;
  $("heroGetStarted").onclick=goName;
@@ -181,6 +192,32 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    route("exam");render();clearInterval(clock);
    clock=setInterval(()=>{left--;const t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);
  };
+
+ $("start").onclick=()=>{
+   $("fieldPreviewTitle").textContent=track+" Field";
+   $("fieldPreviewSubjects").textContent=tracks[track].join(" · ");
+   $("fieldCandidate").textContent="Candidate: "+studentName;
+   route("fieldPreview");
+ };
+ $("previewBack").onclick=()=>route("setup");
+ $("beginMock").onclick=()=>{{
+   studentName=localStorage.getItem("js_student_name")||studentName;
+   if(!studentName){goName();return}
+   if(localStorage.getItem(completedKey())){alert("A mock has already been completed under this name on this browser.");goName();return}
+   track=document.querySelector('input[name="track"]:checked').value;
+   const selected=tracks[track];
+   const required=s=>s==="English"?60:40;
+   const missing=selected.filter(sub=>bank.filter(q=>q[0]===sub).length<required(sub));
+   if(missing.length){alert("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
+   qs=selected.flatMap(sub=>[...bank.filter(q=>q[0]===sub)].sort(()=>Math.random()-.5).slice(0,required(sub)));
+   if(qs.length!==180){alert("The mock could not be prepared correctly. Please try again later.");return}
+   ans={};at=0;left=90*60;activeMock=true;
+   $("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions · Candidate: "+studentName;
+   route("exam");render();clearInterval(clock);
+   clock=setInterval(()=>{left--;const t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);
+ };
+ summary=()=>{$("summary").textContent=track+" Field · 4 subjects · 180 questions";$("trackSubjects").textContent="Your fixed mock includes "+tracks[track].join(", ")+". English has 60 questions; each other subject has 40. Each subject is scored out of 100."};
+ $("count").value="40";
  const originalFinish=finish;
  finish=function(){
    if(!activeMock)return;
