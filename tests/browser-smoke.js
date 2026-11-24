@@ -22,42 +22,22 @@ const fs = require("node:fs");
     }
     assert.ok(loaded, "Website did not become reachable: " + (lastError?.message || "unknown error"));
 
+    await page.getByRole("heading", { name: /Prepare with purpose/i }).waitFor({ state: "visible" });
     await page.locator("#navGetStarted").click();
-    await page.locator("#studentName").fill("Browser Test Candidate");
-    await page.locator("#continueName").click();
-    await page.locator('input[name="track"][value="Medical"]').check();
-    await page.locator("#continueField").click();
-    await page.locator("#beginMock").click();
+    await page.getByRole("heading", { name: /Welcome to JAMB Slayers/i }).waitFor({ state: "visible" });
+    await page.getByRole("button", { name: /Create account/i }).click();
 
-    await page.locator("#subjectTabs .subject-tab").first().waitFor();
-    const tabs = page.locator("#subjectTabs .subject-tab");
-    assert.equal(await tabs.count(), 4, "Expected four subject tabs");
-    const tabText = await tabs.allTextContents();
-    assert.match(tabText[0], /English[\s\S]*0\/60 answered/);
-    for (const subject of ["Physics", "Chemistry", "Biology"]) {
-      const text = tabText.find(item => item.includes(subject));
-      assert.ok(text, "Missing " + subject + " tab");
-      assert.match(text, /0\/40 answered/);
+    for (const label of ["Surname", "First name", "Username", "Email address"]) {
+      await page.getByLabel(label).last().waitFor({ state: "visible" });
     }
+    await page.getByLabel(/Password/).last().waitFor({ state: "visible" });
+    await page.getByLabel(/Target UTME score/i).waitFor({ state: "visible" });
+    await page.getByRole("button", { name: /Continue with Google/i }).waitFor({ state: "visible" });
 
-    // Confirm switching subjects updates the local question numbering.
-    await tabs.nth(1).click();
-    assert.match(await page.locator("#num").textContent(), /Question 1 of 40/);
-    await tabs.nth(0).click();
-    assert.match(await page.locator("#num").textContent(), /Question 1 of 60/);
-
-    // Submission must open the custom confirmation and then show results.
-    await page.locator("#submit").click();
-    await page.locator("#popupBackdrop.open").waitFor();
-    assert.match(await page.locator("#popupTitle").textContent(), /Submit your mock/i);
-    await page.locator("#popupConfirm").click();
-    await page.locator("#results:not(.hidden)").waitFor({ timeout: 10000 });
-    assert.ok((await page.locator("#percent").textContent()).includes("/400"));
-
-    assert.deepEqual(pageErrors, [], "Browser console page errors were detected");
+    assert.deepEqual(pageErrors, [], "Browser JavaScript page errors were detected");
     fs.mkdirSync("artifacts", { recursive: true });
-    await page.screenshot({ path: "artifacts/mock-results.png", fullPage: true });
-    console.log("PASS: site loaded, four tabs and local counts verified, submit opened custom confirmation, results rendered.");
+    await page.screenshot({ path: "artifacts/student-account-screen.png", fullPage: true });
+    console.log("PASS: deployed site loaded, account navigation worked, all registration fields and Google sign-in control rendered.");
   } finally {
     await browser.close();
   }
