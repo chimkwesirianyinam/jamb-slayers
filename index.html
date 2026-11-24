@@ -6,7 +6,7 @@
 .mainnav{display:flex;align-items:center;gap:25px;margin-left:auto;margin-right:24px}.mainnav a,.textlink{color:#53617b;text-decoration:none;font-size:13px;font-weight:700}.mainnav a:hover,.textlink:hover{color:var(--blue)}.navcta{padding:10px 15px}.landing{display:grid;grid-template-columns:1.1fr .9fr;gap:45px;align-items:center;padding:62px 4px 55px}.landing-copy{max-width:590px}.eyebrow{display:inline-block;color:var(--blue);font-size:11px;font-weight:850;letter-spacing:1.5px}.landing h1{font-size:clamp(34px,5vw,54px);letter-spacing:-1.8px;line-height:1.08;color:var(--navy);margin:15px 0}.landing h1 em{font-style:normal;color:var(--blue)}.landing-copy>p{max-width:520px;color:#68758d;line-height:1.8;font-size:16px}.landing-actions{display:flex;align-items:center;gap:22px;margin-top:25px}.quickfacts{display:flex;gap:25px;flex-wrap:wrap;margin-top:38px;color:#77839a;font-size:11px}.quickfacts b{display:block;color:var(--navy);font-size:20px;margin-bottom:3px}.landing-panel{background:#fff;border:1px solid var(--line);border-radius:18px;padding:23px;box-shadow:0 12px 35px rgba(24,42,82,.06)}.panel-top{display:flex;align-items:center;gap:8px;color:#68758d;font-size:10px;font-weight:850;letter-spacing:1px}.dot{width:8px;height:8px;background:#15966b;border-radius:50%}.panel-label{margin-left:auto;background:#eef2ff;color:var(--blue);padding:6px 8px;border-radius:20px;font-size:9px}.panel-title{font-size:21px;font-weight:850;color:var(--navy);margin:25px 0 15px}.path-card{display:flex;align-items:center;gap:12px;padding:15px 12px;border:1px solid var(--line);border-radius:12px;margin:10px 0}.path-icon{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:#eef2ff;color:var(--blue);font-weight:900}.path-card b,.path-card small{display:block}.path-card b{font-size:13px;color:var(--navy)}.path-card small{font-size:10px;color:#7b879b;margin-top:4px}.path-arrow{margin-left:auto;color:var(--blue);font-size:20px}.panel-foot{display:flex;justify-content:space-between;border-top:1px solid var(--line);padding-top:15px;margin-top:18px;color:#77839a;font-size:10px}.feature-section{padding:25px 0 55px}.section-heading{text-align:center;max-width:560px;margin:0 auto 25px}.section-heading h2{font-size:25px;line-height:1.25;color:var(--navy);margin-top:9px}.feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.feature-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px}.feature-card>span{display:grid;place-items:center;width:34px;height:34px;background:#eef2ff;color:var(--blue);border-radius:9px;font-size:19px;margin-bottom:15px}.feature-card b{font-size:14px;color:var(--navy)}.feature-card p{font-size:12px;line-height:1.65;color:#77839a;margin-bottom:0}.setup-heading{display:flex;justify-content:space-between;align-items:center;gap:12px}.setup-heading .btn{white-space:nowrap}
 @media(max-width:760px){.mainnav{gap:13px;margin-right:12px}.mainnav a{font-size:12px}.landing{grid-template-columns:1fr;gap:25px;padding:38px 0}.landing-panel{max-width:540px}.feature-grid{grid-template-columns:1fr}.feature-section{padding-bottom:35px}}
 @media(max-width:520px){.top{height:62px;padding:0 12px}.brand{font-size:15px}.brand i{width:30px;height:30px;margin-right:6px}.mainnav{display:none}.navcta{padding:9px 11px;font-size:12px}.landing h1{font-size:37px}.landing-copy>p{font-size:14px}.quickfacts{gap:17px}.quickfacts b{font-size:18px}.landing-actions{gap:14px;flex-wrap:wrap}.landing-panel{padding:17px}.path-card{padding:12px 9px}.path-card small{font-size:9px}.setup-heading{align-items:flex-start}.setup-heading h2{margin-bottom:5px}}
-</style></head><body>
+.popup-backdrop{position:fixed;inset:0;background:rgba(13,25,53,.58);display:none;align-items:center;justify-content:center;padding:20px;z-index:9999;backdrop-filter:blur(3px)}.popup-backdrop.open{display:flex}.popup-card{width:min(100%,420px);background:#fff;border-radius:18px;padding:25px;box-shadow:0 24px 70px rgba(7,18,45,.25);animation:popupIn .18s ease-out}.popup-mark{width:42px;height:42px;border-radius:13px;background:#eef2ff;color:var(--blue);display:grid;place-items:center;font-size:20px;font-weight:900;margin-bottom:15px}.popup-card h2{font-size:20px;color:var(--navy);margin:0 0 8px}.popup-card p{color:#65718a;line-height:1.65;font-size:14px;margin:0}.popup-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:22px}.popup-actions button{min-width:95px}@keyframes popupIn{from{opacity:0;transform:translateY(8px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@media(max-width:520px){.popup-card{padding:21px}.popup-actions button{flex:1}}</style></head><body>
 <header class="top"><div class="brand"><i>JS</i>JAMB SLAYERS</div><nav class="mainnav"><a href="#home" id="navHome">Home</a><a href="#features" id="navFeatures">Features</a><a href="#setup" id="navPractice">Practice</a></nav><button class="btn secondary navcta" id="navGetStarted">Get started</button></header>
 <main><section id="home" class="landing"><div class="landing-copy"><span class="eyebrow">YOUR UTME PREPARATION PARTNER</span><h1>Prepare with purpose.<br><em>Aim higher.</em></h1><p>Practise with focused questions, understand your mistakes and build confidence for your UTME journey.</p><div class="landing-actions"><button class="btn" id="heroGetStarted">Start practising →</button><a href="#features" class="textlink">Explore the platform</a></div><div class="quickfacts"><span><b>2</b> practice fields</span><span><b>4</b> subjects per mock</span><span><b>400</b> marks per mock</span></div></div><div class="landing-panel"><div class="panel-top"><span class="dot"></span><span>JAMB SLAYERS</span><span class="panel-label">MOCK PRACTICE</span></div><div class="panel-title">Your next mock starts here</div><div class="path-card"><span class="path-icon">◷</span><div><b>90-minute practice</b><small>A full-length, timed UTME mock</small></div></div><div class="path-card"><span class="path-icon">✓</span><div><b>Detailed answer review</b><small>Learn from every question after submission</small></div></div><div class="panel-foot"><span>Timed practice</span><span>Detailed explanations</span></div></div></section>
 <section id="features" class="feature-section"><div class="section-heading"><span class="eyebrow">BUILT FOR BETTER PREPARATION</span><h2>Everything you need to practise with confidence.</h2></div><div class="feature-grid"><article class="feature-card"><span>◷</span><b>Timed mock exams</b><p>Practise under a time limit and learn to manage your exam time.</p></article><article class="feature-card"><span>✓</span><b>Instant results</b><p>See your score for each subject and your total out of 400.</p></article><article class="feature-card"><span>✎</span><b>Clear explanations</b><p>Review each question and understand why an answer is correct.</p></article></div></section>
@@ -35,7 +35,7 @@
 <div class="start"><span class="muted" id="summary">Medical Field · 4 subjects · 20 questions</span><button class="btn" id="start">Start mock test →</button></div></div>
 <aside class="card"><h2>Mock overview</h2><div class="info"><div><b>◷ Timed practice</b><span>Keep an eye on the countdown.</span></div><div><b>▦ Question navigator</b><span>Move between questions freely.</span></div><div><b>✓ Automatic marking</b><span>See your score by subject.</span></div><div><b>✎ Detailed explanations</b><span>Understand every answer.</span></div></div><div class="notice"><b>Practice note</b><br>Questions are drawn from the JAMB Slayers question bank. This is an independent practice platform and is not an official JAMB examination.</div></aside></section>
 <section id="exam" class="hidden"><div class="examhead"><div><span class="pill">JAMB SLAYERS · MOCK SESSION</span><h2 style="margin-top:9px">UTME Practice Mock</h2><div class="muted" id="subtitle"></div></div><div class="timer" id="timer">30:00</div></div><div class="bar"><div id="progress"></div></div><div class="subject-tabs" id="subjectTabs"></div><div class="examgrid"><div class="card"><div class="meta"><span class="tag" id="subj"></span><span id="num"></span></div><div class="question" id="q"></div><div id="opts"></div><div id="feedback" class="explain hidden"></div><div class="actions"><button class="btn secondary" id="prev">← Previous</button><button class="btn" id="next">Next →</button></div></div><aside class="card"><h2>Question palette</h2><div class="muted" id="answered">0 answered</div><div class="qnav" id="palette"></div><button class="btn full" id="submit">Submit mock</button></aside></div></section>
-<section id="results" class="hidden"><div class="card"><div class="score"><span class="pill">MOCK COMPLETE</span><p><strong id="percent">0%</strong></p><h2 id="headline">Your result</h2><div class="muted" id="scoreline"></div></div><div id="breakdown"></div><h2 style="margin-top:24px">Answer review & explanations</h2><div id="review"></div><button class="btn" id="again">Back to setup</button></div></section></main><footer>JAMB SLAYERS · MEDICAL & ENGINEERING UTME MOCKS · Not affiliated with JAMB.</footer>
+<section id="results" class="hidden"><div class="card"><div class="score"><span class="pill">MOCK COMPLETE</span><p><strong id="percent">0%</strong></p><h2 id="headline">Your result</h2><div class="muted" id="scoreline"></div></div><div id="breakdown"></div><h2 style="margin-top:24px">Answer review & explanations</h2><div id="review"></div><button class="btn" id="again">Back to setup</button></div></section></main><div class="popup-backdrop" id="popupBackdrop"><section class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-describedby="popupMessage"><div class="popup-mark">JS</div><h2 id="popupTitle">JAMB Slayers</h2><p id="popupMessage"></p><div class="popup-actions"><button class="btn secondary" id="popupCancel" type="button">Cancel</button><button class="btn" id="popupConfirm" type="button">Okay</button></div></section></div><footer>JAMB SLAYERS · MEDICAL & ENGINEERING UTME MOCKS · Not affiliated with JAMB.</footer>
 <script src="question-bank.js"></script><script src="question-bank-extra.js"></script><script src="question-bank-biology.js"></script>
 <script>
 const $=x=>document.getElementById(x);
@@ -139,7 +139,7 @@ let qs=[],ans={},at=0,left=5400,clock,track="Medical"; const tracks={Medical:["E
 const letters="ABCD";
 document.querySelectorAll('input[name="track"]').forEach(r=>r.onchange=()=>{track=r.value;summary();$("fieldPreviewTitle").textContent=track+" Field";$("fieldPreviewSubjects").textContent=tracks[track].join(" · ");$("fieldCandidate").textContent="Candidate: "+studentName;route("fieldPreview")});
 $("count").onchange=summary;$("diff").onchange=summary;function summary(){let selected=tracks[track],n=+$("count").value,d=$("diff").value,total=selected.reduce((sum,sub)=>sum+Math.min(n,bank.filter(x=>x[0]===sub&&(d==="Mixed"||x[1]===d)).length),0);$("summary").textContent=track+" Field · 4 subjects · "+total+" questions";$("trackSubjects").textContent="Your mock will include "+selected.join(", ")+". Each subject is scored out of 100, for a final score out of 400."}summary();
-$("start").onclick=()=>{track=document.querySelector('input[name="track"]:checked').value;let selected=tracks[track];if(!selected.length)return alert("Select at least one subject.");let n=+$("count").value,d=$("diff").value;qs=selected.flatMap(s=>{let a=bank.filter(x=>x[0]===s&&(d==="Mixed"||x[1]===d));if(a.length<n)return a;return [...a].sort(()=>Math.random()-.5).slice(0,n)});if(qs.length===0)return alert("No questions available for this selection.");ans={};at=0;left=90*60;$("setup").classList.add("hidden");legacyHero?.classList.add("hidden");homePage.classList.add("hidden");featurePage.classList.add("hidden");$("results").classList.add("hidden");$("exam").classList.remove("hidden");$("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions";render();clearInterval(clock);clock=setInterval(()=>{left--;let t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);scrollTo(0,0)};
+$("start").onclick=()=>{track=document.querySelector('input[name="track"]:checked').value;let selected=tracks[track];if(!selected.length)return notify("Select at least one subject.");let n=+$("count").value,d=$("diff").value;qs=selected.flatMap(s=>{let a=bank.filter(x=>x[0]===s&&(d==="Mixed"||x[1]===d));if(a.length<n)return a;return [...a].sort(()=>Math.random()-.5).slice(0,n)});if(qs.length===0)return notify("No questions available for this selection.");ans={};at=0;left=90*60;$("setup").classList.add("hidden");legacyHero?.classList.add("hidden");homePage.classList.add("hidden");featurePage.classList.add("hidden");$("results").classList.add("hidden");$("exam").classList.remove("hidden");$("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions";render();clearInterval(clock);clock=setInterval(()=>{left--;let t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);scrollTo(0,0)};
 function render(){
  let x=qs[at],subject=x[0],ids=qs.map((q,i)=>q[0]===subject?i:-1).filter(i=>i>=0),local=ids.indexOf(at);
  $("subjectTabs").innerHTML=tracks[track].map(sub=>{
@@ -176,6 +176,16 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  const pages=["home","features","namePage","setup","fieldPreview","exam","results"];
  let studentName=localStorage.getItem("js_student_name")||"";
  let activeMock=false;
+ const popupBackdrop=$("popupBackdrop"),popupTitle=$("popupTitle"),popupMessage=$("popupMessage"),popupCancel=$("popupCancel"),popupConfirm=$("popupConfirm");
+ let popupAction=null;
+ function closePopup(){popupBackdrop.classList.remove("open");popupAction=null}
+ function notify(message,title="JAMB Slayers"){popupTitle.textContent=title;popupMessage.textContent=message;popupCancel.classList.add("hidden");popupConfirm.textContent="Okay";popupAction=null;popupBackdrop.classList.add("open");popupConfirm.focus()}
+ function askPopup(message,onConfirm,title="Please confirm",confirmText="Continue"){popupTitle.textContent=title;popupMessage.textContent=message;popupCancel.textContent="Cancel";popupCancel.classList.remove("hidden");popupConfirm.textContent=confirmText;popupAction=onConfirm;popupBackdrop.classList.add("open");popupConfirm.focus()}
+ popupConfirm.onclick=()=>{const fn=popupAction;closePopup();if(fn)fn()};
+ popupCancel.onclick=closePopup;
+ popupBackdrop.addEventListener("click",e=>{if(e.target===popupBackdrop)closePopup()});
+ document.addEventListener("keydown",e=>{if(e.key==="Escape"&&popupBackdrop.classList.contains("open"))closePopup()});
+ window.notify=notify;
  function route(page,update=true){
    pages.forEach(id=>$(id)?.classList.toggle("hidden",id!==page));
    if(update){history.pushState({page},"","#"+page)}
@@ -183,8 +193,8 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  }
  function currentName(){return (studentName||"").trim()}
  function completedKey(){return "js_mock_completed_"+currentName().toLocaleLowerCase().replace(/\s+/g," ")}
- function goHome(){if(activeMock&&!confirm("Your mock is in progress. Leaving now will end this session. Continue?"))return;activeMock=false;route("home")}
- function goName(){if(activeMock&&!confirm("Your mock is in progress. Leaving now will end this session. Continue?"))return;activeMock=false;route("namePage")}
+ function goHome(){if(activeMock){askPopup("Your mock is in progress. Leaving now will end this session.",()=>{activeMock=false;route("home")},"Leave mock?","Leave");return}activeMock=false;route("home")}
+ function goName(){if(activeMock){askPopup("Your mock is in progress. Leaving now will end this session.",()=>{activeMock=false;route("namePage")},"Leave mock?","Leave");return}activeMock=false;route("namePage")}
  function goFields(){route("setup")}
  $("navGetStarted").onclick=goName;
  $("heroGetStarted").onclick=goName;
@@ -201,37 +211,38 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  };
  $("studentName").value=studentName;
  document.querySelectorAll('input[name="track"]').forEach(r=>r.addEventListener("change",()=>{track=r.value;summary()}));
- $("continueField").onclick=()=>{const chosen=document.querySelector('input[name="track"]:checked');if(!chosen){alert("Please select Medical or Engineering Field first.");return}track=chosen.value;summary();$("fieldPreviewTitle").textContent=track+" Field";$("fieldPreviewSubjects").textContent=tracks[track].join(" · ");$("fieldCandidate").textContent="Candidate: "+(studentName||localStorage.getItem("js_student_name")||"");route("fieldPreview")};
+ $("continueField").onclick=()=>{const chosen=document.querySelector('input[name="track"]:checked');if(!chosen){notify("Please select Medical or Engineering Field first.");return}track=chosen.value;summary();$("fieldPreviewTitle").textContent=track+" Field";$("fieldPreviewSubjects").textContent=tracks[track].join(" · ");$("fieldCandidate").textContent="Candidate: "+(studentName||localStorage.getItem("js_student_name")||"");route("fieldPreview")};
  $("start").onclick=()=>{
    studentName=localStorage.getItem("js_student_name")||studentName;
    if(!studentName){goName();return}
-   if(localStorage.getItem(completedKey())){alert("A mock has already been completed under this name on this browser.");goName();return}
+   if(localStorage.getItem(completedKey())){notify("A mock has already been completed under this name on this browser.");goName();return}
    track=document.querySelector('input[name="track"]:checked').value;
    const selected=tracks[track];
    const required=s=>s==="English"?60:40;
    const missing=selected.filter(sub=>bank.filter(q=>q[0]===sub).length<required(sub));
-   if(missing.length){alert("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
+   if(missing.length){notify("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
    qs=selected.flatMap(sub=>[...bank.filter(q=>q[0]===sub)].sort(()=>Math.random()-.5).slice(0,required(sub)));
-   if(qs.length!==180){alert("The mock could not be prepared correctly. Please try again later.");return}
+   if(qs.length!==180){notify("The mock could not be prepared correctly. Please try again later.");return}
    ans={};at=0;left=90*60;activeMock=true;
    $("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions · Candidate: "+studentName;
    route("exam");render();clearInterval(clock);
    clock=setInterval(()=>{left--;const t=String(Math.floor(left/60)).padStart(2,"0")+":"+String(left%60).padStart(2,"0");$("timer").textContent=t;if(left<=0)finish()},1000);
  };
 
- $("start").onclick=()=>{const chosen=document.querySelector('input[name="track"]:checked');if(!chosen){alert("Please select a field first.");return}track=chosen.value;$("continueField").click()};
+ $("start").onclick=()=>{const chosen=document.querySelector('input[name="track"]:checked');if(!chosen){notify("Please select a field first.");return}track=chosen.value;$("continueField").click()};
  $("previewBack").onclick=()=>route("setup");
+ $("submit").onclick=()=>{if(!activeMock||!qs.length){notify("There is no active mock to submit.");return}const unanswered=qs.length-Object.keys(ans).length;askPopup("You have answered "+Object.keys(ans).length+" of "+qs.length+" questions"+(unanswered?". "+unanswered+" question(s) remain unanswered.":"." )+" Your answers will now be marked.",()=>finish(),"Submit your mock?","Submit mock")};
  $("beginMock").onclick=()=>{
    studentName=localStorage.getItem("js_student_name")||studentName;
    if(!studentName){goName();return}
-   if(localStorage.getItem(completedKey())){alert("A mock has already been completed under this name on this browser.");goName();return}
+   if(localStorage.getItem(completedKey())){notify("A mock has already been completed under this name on this browser.");goName();return}
    track=document.querySelector('input[name="track"]:checked').value;
    const selected=tracks[track];
    const required=s=>s==="English"?60:40;
    const missing=selected.filter(sub=>bank.filter(q=>q[0]===sub).length<required(sub));
-   if(missing.length){alert("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
+   if(missing.length){notify("The question bank is incomplete for: "+missing.join(", ")+". Please contact the site administrator.");return}
    qs=selected.flatMap(sub=>[...bank.filter(q=>q[0]===sub)].sort(()=>Math.random()-.5).slice(0,required(sub)));
-   if(qs.length!==180){alert("The mock could not be prepared correctly. Please try again later.");return}
+   if(qs.length!==180){notify("The mock could not be prepared correctly. Please try again later.");return}
    ans={};at=0;left=90*60;activeMock=true;
    $("subtitle").textContent=selected.join(" · ")+" | "+qs.length+" questions · Candidate: "+studentName;
    route("exam");render();clearInterval(clock);
@@ -249,14 +260,13 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    originalFinish();
    route("results");
  };
- $("again").onclick=()=>{alert("This name has already completed its mock on this browser. A second attempt is not available.");goHome()};
+ $("again").onclick=()=>{notify("This name has already completed its mock on this browser. A second attempt is not available.");goHome()};
  window.addEventListener("beforeunload",e=>{
    if(activeMock){e.preventDefault();e.returnValue="Your mock is in progress. Leaving this page may end your session."}
  });
  window.addEventListener("popstate",()=>{
-   if(activeMock){const leave=confirm("Your mock is in progress. Are you sure you want to leave?");if(!leave){history.pushState({page:"exam"},"","#exam");return} }
-   activeMock=false;
    const page=location.hash.slice(1);
+   if(activeMock){history.pushState({page:"exam"},"","#exam");askPopup("Your mock is in progress. Leaving now will end this session.",()=>{activeMock=false;route(pages.includes(page)?page:"home",false)},"Leave mock?","Leave");return}
    route(pages.includes(page)?page:"home",false);
  });
  if(studentName&&$("studentName"))$("studentName").value=studentName;
