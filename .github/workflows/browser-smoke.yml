@@ -1,0 +1,39 @@
+name: JAMB Slayers browser smoke test
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "index.html"
+      - "question-bank*.js"
+      - "tests/**"
+      - ".github/workflows/browser-smoke.yml"
+  workflow_dispatch:
+
+jobs:
+  browser-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Test deployed website in Chromium
+        run: node tests/browser-smoke.js
+        env:
+          TARGET_URL: https://jamb-slayers.onrender.com
+      - name: Save browser screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jamb-slayers-browser-screenshot
+          path: artifacts/
+          if-no-files-found: ignore
