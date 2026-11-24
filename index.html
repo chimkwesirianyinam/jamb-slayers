@@ -290,6 +290,10 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    if(!activeMock)return;
    activeMock=false;
    localStorage.setItem(completedKey(),JSON.stringify({completedAt:new Date().toISOString(),field:track}));
+   window.dispatchEvent(new CustomEvent("jamb-slayers-mock-finished",{detail:{
+     field:track,
+     questions:qs.map((q,i)=>({subject:q[0],question:q[2],options:q[3],correctIndex:q[4],selectedIndex:ans[i]===undefined?null:ans[i],explanation:q[5]}))
+   }}));
    originalFinish();
    route("results");
  };
@@ -309,7 +313,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, runTransaction, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, runTransaction, serverTimestamp, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBiEnmRMf3RIOwZMbIHRINudJKO-3JJbc4",
@@ -329,6 +333,7 @@ const el=id=>document.getElementById(id);
 let currentProfile=null;
 let currentUser=null;
 let pendingGoogleUser=null;
+let registrationInProgress=false;
 
 await setPersistence(auth,browserLocalPersistence);
 
@@ -443,10 +448,13 @@ el("signUpForm").onsubmit=async e=>{
   if(!surname||!firstName){showError("Please enter both your surname and first name.");return}
   if(!validUsername(username)){showError("Username must be 3–20 characters and use only letters, numbers or underscores.");return}
   try{
+    registrationInProgress=true;
     const credential=await createUserWithEmailAndPassword(auth,email,password);
     const profile=await saveProfile(credential.user,{surname,firstName,username,targetScore:el("signupTarget").value});
+    registrationInProgress=false;
     renderSignedIn(credential.user,profile);
   }catch(err){
+    registrationInProgress=false;
     if(err.code==="auth/email-already-in-use")showError("An account already exists with this email. Please sign in instead.");
     else showError(err.message||"Account creation failed. Please try again.");
   }
@@ -476,14 +484,43 @@ el("googleAuth").onclick=async()=>{
 };
 el("continueName").onclick=goToPractice;
 onAuthStateChanged(auth,async user=>{
-  if(!user)return;
+  if(!user||registrationInProgress)return;
   currentUser=user;
   try{
     const snap=await getDoc(doc(db,"students",user.uid));
     if(snap.exists())renderSignedIn(user,snap.data());
-    else if(user.providerData.some(p=>p.providerId==="google.com"))showProfileCompletion(user);
-    else {el("authIntro").textContent="Your account was created. Please complete your student profile.";switchMode("signup");}
+    else showProfileCompletion(user);
   }catch(err){showError("We could not load your student profile. Check your connection and Firestore rules.");}
+});
+
+window.addEventListener("jamb-slayers-mock-finished",async event=>{
+  if(!currentUser)return;
+  try{
+    const questions=event.detail.questions||[];
+    const subjects={};
+    for(const q of questions){
+      subjects[q.subject]??={correct:0,total:0};
+      subjects[q.subject].total++;
+      if(q.selectedIndex===q.correctIndex)subjects[q.subject].correct++;
+    }
+    const subjectScores={};
+    let totalScore=0;
+    for(const [subject,data] of Object.entries(subjects)){
+      const score=Math.round(data.correct/data.total*100);
+      subjectScores[subject]={...data,score};
+      totalScore+=score;
+    }
+    await addDoc(collection(db,"attempts"),{
+      uid:currentUser.uid,
+      field:event.detail.field,
+      totalScore,
+      subjectScores,
+      questions,
+      completedAt:serverTimestamp()
+    });
+  }catch(err){
+    console.error("Could not save mock result to the student account:",err);
+  }
 });
 </script>
 </body></html>
