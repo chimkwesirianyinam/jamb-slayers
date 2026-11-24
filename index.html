@@ -312,8 +312,8 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
 </script>
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, runTransaction, serverTimestamp, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import { getAuth, setPersistence, browserLocalPersistence, createUserWithEmailAndPassword, signInWithEmailAndPassword, signInWithCustomToken, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import { getFirestore, doc, getDoc, setDoc, serverTimestamp, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBiEnmRMf3RIOwZMbIHRINudJKO-3JJbc4",
@@ -327,6 +327,7 @@ const firebaseConfig = {
 const app=initializeApp(firebaseConfig);
 const auth=getAuth(app);
 const db=getFirestore(app);
+const AUTH_API_BASE="https://jamb-slayers-auth-api.onrender.com";
 const googleProvider=new GoogleAuthProvider();
 googleProvider.setCustomParameters({prompt:"select_account"});
 const el=id=>document.getElementById(id);
@@ -357,29 +358,35 @@ el("showSignUp").onclick=()=>switchMode("signup");
 function normalizeUsername(value){return value.trim().toLowerCase()}
 function validUsername(value){return /^[a-zA-Z0-9_]{3,20}$/.test(value)}
 function displayName(profile){return [profile.firstName,profile.surname].filter(Boolean).join(" ").trim()}
+async function registerUsernameWithApi(user,username){
+  const idToken=await user.getIdToken();
+  const response=await fetch(AUTH_API_BASE+"/api/usernames/register",{
+    method:"POST",
+    headers:{"Content-Type":"application/json","Authorization":"Bearer "+idToken},
+    body:JSON.stringify({username})
+  });
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||"We could not register your username. Please try again.");
+  return data;
+}
 async function saveProfile(user,profile){
   const username=normalizeUsername(profile.username||"");
   if(!validUsername(username)) throw new Error("Username must be 3–20 characters and use only letters, numbers or underscores.");
   const target=Number(profile.targetScore);
   if(!Number.isInteger(target)||target<0||target>400) throw new Error("Target UTME score must be a whole number from 0 to 400.");
-  const reservationRef=doc(db,"usernameReservations",username);
+  await registerUsernameWithApi(user,username);
   const profileRef=doc(db,"students",user.uid);
-  await runTransaction(db,async tx=>{
-    const reservation=await tx.get(reservationRef);
-    if(reservation.exists()&&reservation.data().uid!==user.uid) throw new Error("That username is already taken. Please choose another.");
-    tx.set(reservationRef,{uid:user.uid,createdAt:serverTimestamp()});
-    tx.set(profileRef,{
-      uid:user.uid,
-      surname:profile.surname.trim(),
-      firstName:profile.firstName.trim(),
-      username,
-      email:user.email,
-      targetScore:target,
-      provider:user.providerData.some(p=>p.providerId==="google.com")?"google":"password",
-      updatedAt:serverTimestamp(),
-      createdAt:profile.createdAt||serverTimestamp()
-    },{merge:true});
-  });
+  await setDoc(profileRef,{
+    uid:user.uid,
+    surname:profile.surname.trim(),
+    firstName:profile.firstName.trim(),
+    username,
+    email:user.email,
+    targetScore:target,
+    provider:user.providerData.some(p=>p.providerId==="google.com")?"google":"password",
+    updatedAt:serverTimestamp(),
+    createdAt:profile.createdAt||serverTimestamp()
+  },{merge:true});
   currentProfile={...profile,username,targetScore:target};
   localStorage.setItem("js_student_name",displayName(currentProfile));
   return currentProfile;
@@ -462,9 +469,19 @@ el("signUpForm").onsubmit=async e=>{
 el("signInForm").onsubmit=async e=>{
   e.preventDefault();clearError();
   const identity=el("loginIdentity").value.trim();
-  if(!identity.includes("@")){showError("Username sign-in needs a secure server-side lookup service. For now, please sign in with your registered email address.");return}
-  try{await signInWithEmailAndPassword(auth,identity,el("loginPassword").value)}
-  catch(err){showError(err.code==="auth/invalid-credential"?"The email or password is incorrect.":err.message||"Sign-in failed.")}
+  try{
+    if(identity.includes("@")){
+      await signInWithEmailAndPassword(auth,identity,el("loginPassword").value);
+    }else{
+      const response=await fetch(AUTH_API_BASE+"/api/auth/username",{
+        method:"POST",headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({username:identity,password:el("loginPassword").value})
+      });
+      const data=await response.json().catch(()=>({}));
+      if(!response.ok)throw new Error(data.error||"The username or password is incorrect.");
+      await signInWithCustomToken(auth,data.token);
+    }
+  }catch(err){showError(err.message||"Sign-in failed. Please try again.")}
 };
 el("forgotPassword").onclick=async()=>{
   clearError();const email=el("loginIdentity").value.trim();
@@ -488,8 +505,14 @@ onAuthStateChanged(auth,async user=>{
   currentUser=user;
   try{
     const snap=await getDoc(doc(db,"students",user.uid));
-    if(snap.exists())renderSignedIn(user,snap.data());
-    else showProfileCompletion(user);
+    if(snap.exists()){
+      const profile=snap.data();
+      if(profile.username){
+        try{await registerUsernameWithApi(user,profile.username)}
+        catch(syncError){console.warn("Username sync will retry on a later sign-in:",syncError.message)}
+      }
+      renderSignedIn(user,profile);
+    }else showProfileCompletion(user);
   }catch(err){showError("We could not load your student profile. Check your connection and Firestore rules.");}
 });
 
