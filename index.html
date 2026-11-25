@@ -254,7 +254,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
  function goFields(){route("setup")}
  $("navGetStarted").onclick=goName;
  $("heroGetStarted").onclick=goName;
- $("navPractice").onclick=e=>{e.preventDefault();goName()};
+ $("navPractice").onclick=e=>{e.preventDefault();$("navGetStarted").classList.contains("hidden")?goFields():goName()};
  $("navHome").onclick=e=>{e.preventDefault();goHome()};
  $("backHome").onclick=goHome;
  $("nameBack").onclick=goHome;
@@ -444,6 +444,8 @@ function renderSignedIn(user,profile){
   el("showSignIn").classList.add("hidden");
   el("showSignUp").classList.add("hidden");
   el("authIntro").textContent="Your student account is ready.";
+  el("navGetStarted").classList.add("hidden");
+  el("heroGetStarted").classList.add("hidden");
   el("signOutButton").onclick=async()=>{await signOut(auth);localStorage.removeItem("js_student_name");location.hash="#home";location.reload()};
   goToPractice();
 }
