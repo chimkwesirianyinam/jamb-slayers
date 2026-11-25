@@ -27,12 +27,26 @@ const fs = require("node:fs");
     await page.getByRole("heading", { name: /Welcome to JAMB Slayers/i }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: /Create account/i }).click();
 
-    for (const label of ["Surname", "First name", "Username", "Email address"]) {
-      await page.getByLabel(label).last().waitFor({ state: "visible" });
+    for (const selector of ["#signupSurname", "#signupFirstName", "#signupUsername", "#signupEmail", "#signupPassword", "#signupTarget"]) {
+      await page.locator(selector).waitFor({ state: "visible" });
     }
-    await page.getByLabel(/Password/).last().waitFor({ state: "visible" });
-    await page.getByLabel(/Target UTME score/i).waitFor({ state: "visible" });
     await page.getByRole("button", { name: /Continue with Google/i }).waitFor({ state: "visible" });
+
+    // Exercise the field-selection -> Start Mock instructions navigation without starting a live exam.
+    await page.evaluate(() => {
+      for (const id of ["home", "features", "namePage", "fieldPreview", "exam", "results"]) {
+        document.getElementById(id)?.classList.add("hidden");
+      }
+      document.getElementById("setup")?.classList.remove("hidden");
+    });
+    await page.getByRole("button", { name: "Medical Field" }).click();
+    await page.getByRole("heading", { name: /Medical Field/ }).waitFor({ state: "visible" });
+    await page.getByRole("button", { name: /Start Mock/ }).waitFor({ state: "visible" });
+    await page.getByText(/90 minutes for the complete mock/i).waitFor({ state: "visible" });
+    await page.locator("#previewBack").click();
+    await page.getByRole("button", { name: "Engineering Field" }).click();
+    await page.getByRole("heading", { name: /Engineering Field/ }).waitFor({ state: "visible" });
+    await page.getByText(/Mathematics/).waitFor({ state: "visible" });
 
     assert.deepEqual(pageErrors, [], "Browser JavaScript page errors were detected");
     fs.mkdirSync("artifacts", { recursive: true });
