@@ -283,7 +283,7 @@ $("again").onclick=()=>{clearInterval(clock);$("results").classList.add("hidden"
    window.scrollTo(0,0);
  }
  function currentName(){return (studentName||"").trim()}
- function publishedCompletionKey(mock){return "js_published_mock_completed_"+mock.id+"_"+currentName().toLocaleLowerCase().replace(/\\s+/g," ")}
+ function publishedCompletionKey(mock){return "js_published_mock_completed_"+mock.id+"_"+currentName().toLocaleLowerCase().replaceAll(" ","_")}
  window.launchPublishedMock=function(mock){
    if(activeMock){notify("Finish your current practice session before opening another mock.");return}
    if(!mock||!Array.isArray(mock.questions)||mock.questions.length!==180){notify("This mock does not contain a valid 180-question set.");return}
