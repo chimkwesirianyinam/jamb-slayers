@@ -175,7 +175,7 @@ app.get("/api/mocks", async (req, res) => {
 app.get("/api/mocks/:id", async (req, res) => {
   try {
     await verifyBearer(req);
-    if (!/^\\d+$/.test(req.params.id)) return res.status(400).json({ error: "Invalid mock ID." });
+    if (!/^[0-9]+$/.test(req.params.id)) return res.status(400).json({ error: "Invalid mock ID." });
     await ensureMocksTable();
     const result = await pool.query(
       "SELECT id, title, field, questions, created_at, published_at FROM published_mocks WHERE id = $1 AND published_at IS NOT NULL",
