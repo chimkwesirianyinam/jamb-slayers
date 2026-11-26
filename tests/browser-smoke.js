@@ -48,7 +48,8 @@ const fs = require("node:fs");
     await page.getByRole("button", { name: "Engineering Field" }).click();
     await page.getByRole("button", { name: "Next" }).click();
     await page.getByRole("heading", { name: /Engineering Field/ }).waitFor({ state: "visible" });
-    await page.getByText(/Mathematics/).waitFor({ state: "visible" });
+    await page.locator("#fieldPreviewSubjects").waitFor({ state: "visible" });
+    assert.match(await page.locator("#fieldPreviewSubjects").textContent(), /Mathematics/);
 
     // Check dashboard sections and confirm the admin uploader is not exposed to signed-out visitors.
     await page.evaluate(() => {
@@ -75,7 +76,7 @@ const fs = require("node:fs");
     assert.deepEqual(pageErrors, [], "Browser JavaScript page errors were detected");
     fs.mkdirSync("artifacts", { recursive: true });
     await page.screenshot({ path: "artifacts/student-account-screen.png", fullPage: true });
-    console.log("PASS: deployed site loaded, account navigation worked, all registration fields and Google sign-in control rendered.");
+    console.log("PASS: deployed site, field Next flow, dashboard sections, hidden admin panel and unauthenticated mock API protection.");
   } finally {
     await browser.close();
   }
