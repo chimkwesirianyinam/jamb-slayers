@@ -40,11 +40,13 @@ const fs = require("node:fs");
       document.getElementById("setup")?.classList.remove("hidden");
     });
     await page.getByRole("button", { name: "Medical Field" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
     await page.getByRole("heading", { name: /Medical Field/ }).waitFor({ state: "visible" });
     await page.getByRole("button", { name: /Start Mock/ }).waitFor({ state: "visible" });
     await page.getByText(/90 minutes for the complete mock/i).waitFor({ state: "visible" });
     await page.locator("#previewBack").click();
     await page.getByRole("button", { name: "Engineering Field" }).click();
+    await page.getByRole("button", { name: "Next" }).click();
     await page.getByRole("heading", { name: /Engineering Field/ }).waitFor({ state: "visible" });
     await page.getByText(/Mathematics/).waitFor({ state: "visible" });
 
