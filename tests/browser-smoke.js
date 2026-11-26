@@ -50,6 +50,28 @@ const fs = require("node:fs");
     await page.getByRole("heading", { name: /Engineering Field/ }).waitFor({ state: "visible" });
     await page.getByText(/Mathematics/).waitFor({ state: "visible" });
 
+    // Check dashboard sections and confirm the admin uploader is not exposed to signed-out visitors.
+    await page.evaluate(() => {
+      for (const id of ["home", "features", "namePage", "setup", "customPractice", "fieldPreview", "exam", "results"]) {
+        document.getElementById(id)?.classList.add("hidden");
+      }
+      document.getElementById("dashboard")?.classList.remove("hidden");
+    });
+    await page.getByRole("heading", { name: /JAMB News & Mocks/i }).waitFor({ state: "visible" });
+    await page.getByRole("heading", { name: /Custom CBT Practice/i }).waitFor({ state: "visible" });
+    await page.locator("#publishedMocks").waitFor({ state: "visible" });
+    assert.ok(await page.locator("#adminMockPanel").evaluate(node => node.classList.contains("hidden")),
+      "Admin mock uploader must remain hidden when signed out");
+
+    // The API must reject mock access and publishing attempts without a Firebase bearer token.
+    const apiBase = "https://jamb-slayers-auth-api.onrender.com";
+    const accessResponse = await page.request.get(apiBase + "/api/mocks/access");
+    assert.equal(accessResponse.status(), 401, "Mock admin access endpoint must require authentication");
+    const publishResponse = await page.request.post(apiBase + "/api/mocks", {
+      data: { title: "Unauthorised test", field: "Medical", questions: [] }
+    });
+    assert.equal(publishResponse.status(), 401, "Mock publishing endpoint must reject unauthenticated requests");
+
     assert.deepEqual(pageErrors, [], "Browser JavaScript page errors were detected");
     fs.mkdirSync("artifacts", { recursive: true });
     await page.screenshot({ path: "artifacts/student-account-screen.png", fullPage: true });
