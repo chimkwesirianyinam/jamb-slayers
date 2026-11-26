@@ -10,3 +10,18 @@ CREATE TABLE IF NOT EXISTS student_usernames (
 
 CREATE INDEX IF NOT EXISTS student_usernames_uid_idx
   ON student_usernames (uid);
+
+-- Weekly full-length UTME mocks published by authorised administrators.
+CREATE TABLE IF NOT EXISTS published_mocks (
+  id BIGSERIAL PRIMARY KEY,
+  title VARCHAR(120) NOT NULL,
+  field VARCHAR(20) NOT NULL CHECK (field IN ('Medical', 'Engineering')),
+  questions JSONB NOT NULL,
+  created_by_uid VARCHAR(128) NOT NULL,
+  created_by_email VARCHAR(320) NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  published_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS published_mocks_published_at_idx
+  ON published_mocks (published_at DESC);
