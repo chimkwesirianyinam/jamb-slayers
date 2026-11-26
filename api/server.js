@@ -149,7 +149,8 @@ function validateMockPayload(body) {
 app.get("/api/mocks/access", async (req, res) => {
   try {
     const decoded = await verifyBearer(req);
-    return res.json({ isAdmin: isAdminAccount(decoded), emailVerified: decoded.email_verified === true });
+    const emailMatchesAdminList = adminEmails().has(String(decoded.email || "").trim().toLowerCase());
+    return res.json({ isAdmin: isAdminAccount(decoded), requiresEmailVerification: emailMatchesAdminList && decoded.email_verified !== true, emailVerified: decoded.email_verified === true });
   } catch (error) {
     return unauthorized(res);
   }
@@ -164,7 +165,7 @@ app.get("/api/mocks", async (req, res) => {
     );
     return res.json({ mocks: result.rows });
   } catch (error) {
-    if (error.message === "UNAUTHORIZED" || error.code === "auth/id-token-expired" || error.code === "auth/argument-error") return unauthorized(res);
+    if (error.message === "UNAUTHORIZED" || String(error.code || "").startsWith("auth/")) return unauthorized(res);
     if (error.message === "DATABASE_NOT_CONFIGURED") return res.status(503).json({ error: "Mock storage is not configured yet." });
     console.error("Could not list published mocks:", error);
     return res.status(500).json({ error: "Published mocks are temporarily unavailable." });
@@ -183,7 +184,7 @@ app.get("/api/mocks/:id", async (req, res) => {
     if (!result.rowCount) return res.status(404).json({ error: "This mock is no longer available." });
     return res.json({ mock: result.rows[0] });
   } catch (error) {
-    if (error.message === "UNAUTHORIZED" || error.code === "auth/id-token-expired" || error.code === "auth/argument-error") return unauthorized(res);
+    if (error.message === "UNAUTHORIZED" || String(error.code || "").startsWith("auth/")) return unauthorized(res);
     if (error.message === "DATABASE_NOT_CONFIGURED") return res.status(503).json({ error: "Mock storage is not configured yet." });
     console.error("Could not load published mock:", error);
     return res.status(500).json({ error: "This mock could not be loaded. Please try again." });
